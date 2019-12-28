@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/VisualStudioExtensibilityDevelopment.sln
+/.vs/VisualStudioExtensibilityDevelopment/v16/TestStore/0/testlog.manifest
+/.vs/VisualStudioExtensibilityDevelopment/v16/TestStore/0/000-0000.testlog
+/.vs/VisualStudioExtensibilityDevelopment/v16/Server/sqlite3/storage.ide-wal
+/.vs/VisualStudioExtensibilityDevelopment/v16/Server/sqlite3/storage.ide-shm
+/.vs/VisualStudioExtensibilityDevelopment/v16/Server/sqlite3/storage.ide
+/.vs/VisualStudioExtensibilityDevelopment/v16/Server/sqlite3/db.lock
