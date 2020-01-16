@@ -13,7 +13,6 @@ namespace ExternalSearch
     public sealed class ExternalSearchOptionPage : DialogPage
     {
         private const string defaultUrl = "https://www.bing.com/search?q={0}";
-
         private static Dictionary<SearchEngines, string> allEngines = new Dictionary<SearchEngines, string>()
         {
             {SearchEngines.Bing, defaultUrl },

@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using EnvDTE;
+using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
@@ -62,6 +63,12 @@ namespace ExternalSearch
             private set;
         }
 
+        public static DTE DteInstance
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
@@ -83,7 +90,9 @@ namespace ExternalSearch
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
             OutputWindow = await package.GetServiceAsync(typeof(SVsGeneralOutputWindowPane)) as IVsOutputWindowPane;
-
+            Assumes.Present(OutputWindow);
+            DteInstance = await package.GetServiceAsync(typeof(DTE)) as DTE;
+            Assumes.Present(DteInstance);
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             Instance = new SearchCommand(package, commandService);
         }
@@ -95,15 +104,14 @@ namespace ExternalSearch
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
-        private async void Execute(object sender, EventArgs e)
+        private void Execute(object sender, EventArgs e)
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var dte = await this.package.GetServiceAsync(typeof(DTE)) as DTE;
+            ThreadHelper.ThrowIfNotOnUIThread();
             var options = this.package.GetDialogPage(typeof(ExternalSearchOptionPage)) as ExternalSearchOptionPage;
-            var textSelection = dte?.ActiveDocument?.Selection as TextSelection;
+            var textSelection = DteInstance?.ActiveDocument?.Selection as TextSelection;
             if (textSelection == null)
             {
-                OutputWindow.OutputString($"The selection is null or empty");
+                DteInstance.StatusBar.Text = "The selection is null or empty";
                 return;
             }
 
@@ -111,11 +119,12 @@ namespace ExternalSearch
             if (!string.IsNullOrWhiteSpace(textToBeSearched))
             {
                 var encodedText = HttpUtility.UrlEncode(textToBeSearched);
-                ////string url = $"https://www.bing.com/search?q={encodedText}";
+                DteInstance.StatusBar.Text = $"Searching {textToBeSearched}";
+                OutputWindow.OutputString($"Searching {textToBeSearched}");
                 string url = string.Format(options.Url, encodedText);
                 if (options.UseVSBrowser)
                 {
-                    dte.ItemOperations.Navigate(url, vsNavigateOptions.vsNavigateOptionsDefault);
+                    DteInstance.ItemOperations.Navigate(url, vsNavigateOptions.vsNavigateOptionsDefault);
                 }
                 else
                 {
@@ -124,7 +133,7 @@ namespace ExternalSearch
             }
             else
             {
-                OutputWindow.OutputString($"The selection is null or empty");
+                DteInstance.StatusBar.Text = "The selection is null or empty";
             }
         }
     }
