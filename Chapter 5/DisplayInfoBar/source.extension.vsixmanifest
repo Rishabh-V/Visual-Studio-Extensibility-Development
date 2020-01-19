@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="ExternalSearch.67873bfe-7c37-4a2e-8616-c3bf64959060" Version="1.1" Language="en-US" Publisher="Rishabh Verma" />
-        <DisplayName>External Search</DisplayName>
-        <Description xml:space="preserve">Search text or code in the search engine of your choice without leaving Visual Studio IDE</Description>
-        <License>LicenseInformation.rtf</License>
-        <Icon>SearchMember.png</Icon>
-        <PreviewImage>SearchMember.png</PreviewImage>
-        <Tags>Code Search, Text Search, Bing, Google, StackOverflow, Microsoft Docs,</Tags>
+        <Identity Id="DisplayInfoBar.4d149b72-dfa7-4b8b-bee2-3b528c335746" Version="1.0" Language="en-US" Publisher="Rishabh Verma" />
+        <DisplayName>DisplayInfoBar</DisplayName>
+        <Description xml:space="preserve">Demonstrates  showing InfoBar in the Visual Studio IDE.</Description>
+        <Icon>StatusInformation.png</Icon>
+        <PreviewImage>StatusInformation.png</PreviewImage>
+        <Tags>InfoBar, ToolWindow</Tags>
+        <Preview>true</Preview>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0, 17.0)" />
