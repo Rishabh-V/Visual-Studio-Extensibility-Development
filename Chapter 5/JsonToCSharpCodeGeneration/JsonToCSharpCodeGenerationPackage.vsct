@@ -18,7 +18,7 @@
   <Include href="KnownImageIds.vsct"/>
   <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
-  <Commands package="guidDisplayInfoBarPackage">
+  <Commands package="guidJsonToCSharpCodeGenerationPackage">
     <!-- Inside this section we have different sub-sections: one for the menus, another
     for the menu groups, one for the buttons (the actual commands), one for the combos
     and the last one for the bitmaps used. Each element is identified by a command id that
@@ -26,6 +26,15 @@
     called "command set" and is used to group different command inside a logically related
     group; your package should define its own command set in order to avoid collisions
     with command ids defined by other packages. -->
+    <!-- In this section you can define new menu groups. A menu group is a container for
+         other menus or buttons (commands); from a visual point of view you can see the
+         group as the part of a menu contained between two lines. The parent of a group
+         must be a menu. -->
+    <Groups>
+      <Group guid="guidJsonToCSharpCodeGenerationPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE" />
+      </Group>
+    </Groups>
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
@@ -37,27 +46,29 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidDisplayInfoBarPackageCmdSet" id="ToolWindowWithInfoBarCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
-        <Icon guid="ImageCatalogGuid" id="StatusInformation" />
+      <Button guid="guidJsonToCSharpCodeGenerationPackageCmdSet" id="ApplyCodeGenerationCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidJsonToCSharpCodeGenerationPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="ImageCatalogGuid" id="GenerateFile" />
         <CommandFlag>IconIsMoniker</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
-          <ButtonText>InfoBar Demo</ButtonText>
+          <ButtonText>Generate C# class</ButtonText>
         </Strings>
       </Button>
     </Buttons>
   </Commands>
-  <KeyBindings>
-    <KeyBinding guid="guidDisplayInfoBarPackageCmdSet" id="ToolWindowWithInfoBarCommandId" editor="guidVSStd97" 
-                key1="VK_F5" mod1="Control" key2="VK_CAPITAL" mod2="Shift">
-    </KeyBinding>
-  </KeyBindings>
+  <VisibilityConstraints>
+    <VisibilityItem guid="guidJsonToCSharpCodeGenerationPackageCmdSet" id="ApplyCodeGenerationCommandId" 
+                    context="guidVisibilityContext"/>
+  </VisibilityConstraints>
   <Symbols>
     <!-- This is the package guid. -->
-    <GuidSymbol name="guidDisplayInfoBarPackage" value="{67e4471b-024c-4b1b-9c7e-02c31f985afe}" />
+    <GuidSymbol name="guidJsonToCSharpCodeGenerationPackage" value="{7f598ea7-ac90-4b85-b961-c2adaaa3b542}" />
+    <GuidSymbol name="guidVisibilityContext" value="{878bc455-61ba-459b-b18d-6922cde6ce19}"/>
     <!-- This is the guid used to group the menu commands together -->
-    <GuidSymbol name="guidDisplayInfoBarPackageCmdSet" value="{17c3d91a-eb4d-4bcf-bd9c-fcfcd922a005}">
-      <IDSymbol name="ToolWindowWithInfoBarCommandId" value="0x0100" />
+    <GuidSymbol name="guidJsonToCSharpCodeGenerationPackageCmdSet" value="{25cc0502-dddc-4d0e-8d04-9ceeef853fd3}">
+      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="ApplyCodeGenerationCommandId" value="0x0100" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

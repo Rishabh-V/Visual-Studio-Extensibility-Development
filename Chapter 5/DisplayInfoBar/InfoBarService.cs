@@ -41,7 +41,7 @@ namespace DisplayInfoBar
             ThreadHelper.ThrowIfNotOnUIThread();
             string context = (string)actionItem.ActionContext;
 
-            if (context == "yes")
+            if (string.Equals(context, "yes", StringComparison.OrdinalIgnoreCase))
             {
                 MessageBox.Show("Thanks for liking it!");
             }
@@ -51,33 +51,43 @@ namespace DisplayInfoBar
             }
         }
 
-        public void ShowInfoBar(string message)
+        public void ShowInfoBar(string message, ToolWindowPane toolWindow = null)
         {
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
-            var shell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
-            if (shell != null)
+
+            // Construct an InfoBar.
+            InfoBarTextSpan text = new InfoBarTextSpan(message);
+            InfoBarHyperlink yes = new InfoBarHyperlink("Yes", "yes");
+            InfoBarHyperlink no = new InfoBarHyperlink("No", "no");
+            InfoBarButton noButton = new InfoBarButton("No", "no");
+
+            InfoBarTextSpan[] spans = new InfoBarTextSpan[] { text };
+            InfoBarActionItem[] actions = new InfoBarActionItem[] { yes, no, noButton };
+            InfoBarModel infoBarModel = new InfoBarModel(spans, actions, KnownMonikers.StatusInformation, isCloseButtonVisible: true);
+
+            var factory = serviceProvider.GetService(typeof(SVsInfoBarUIFactory)) as IVsInfoBarUIFactory;
+            Assumes.Present(factory);
+            IVsInfoBarUIElement element = factory.CreateInfoBar(infoBarModel);
+            element.Advise(this, out cookie);
+            if (toolWindow == null)
             {
-                shell.GetProperty((int)__VSSPROPID7.VSSPROPID_MainWindowInfoBarHost, out var obj);
-                var host = (IVsInfoBarHost)obj;
-
-                if (host == null)
+                var shell = serviceProvider.GetService(typeof(SVsShell)) as IVsShell;
+                if (shell != null)
                 {
-                    return;
+                    shell.GetProperty((int)__VSSPROPID7.VSSPROPID_MainWindowInfoBarHost, out var obj);
+                    var host = (IVsInfoBarHost)obj;
+
+                    if (host == null)
+                    {
+                        return;
+                    }
+
+                    host.AddInfoBar(element);
                 }
-
-                InfoBarTextSpan text = new InfoBarTextSpan(message);
-                InfoBarHyperlink yes = new InfoBarHyperlink("Yes", "yes");
-                InfoBarHyperlink no = new InfoBarHyperlink("No", "no");
-
-                InfoBarTextSpan[] spans = new InfoBarTextSpan[] { text };
-                InfoBarActionItem[] actions = new InfoBarActionItem[] { yes, no };
-                InfoBarModel infoBarModel = new InfoBarModel(spans, actions, KnownMonikers.StatusInformation, isCloseButtonVisible: true);
-
-                var factory = serviceProvider.GetService(typeof(SVsInfoBarUIFactory)) as IVsInfoBarUIFactory;
-                Assumes.Present(factory);
-                IVsInfoBarUIElement element = factory.CreateInfoBar(infoBarModel);
-                element.Advise(this, out cookie);
-                host.AddInfoBar(element);
+            }
+            else
+            {
+                toolWindow.AddInfoBar(element);
             }
         }
     }

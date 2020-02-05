@@ -3,16 +3,18 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using EnvDTE;
+using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
-namespace DisplayInfoBar
+namespace JsonToCSharpCodeGeneration
 {
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class ToolWindowWithInfoBarCommand
+    internal sealed class ApplyCodeGenerationCommand
     {
         /// <summary>
         /// Command ID.
@@ -22,35 +24,38 @@ namespace DisplayInfoBar
         /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
-        public static readonly Guid CommandSet = new Guid("17c3d91a-eb4d-4bcf-bd9c-fcfcd922a005");
+        public static readonly Guid CommandSet = new Guid("25cc0502-dddc-4d0e-8d04-9ceeef853fd3");
 
         /// <summary>
         /// VS Package that provides this command, not null.
         /// </summary>
         private readonly AsyncPackage package;
 
-        internal static ToolWindowPane ToolWindow { get; private set; }
+        private static DTE dte;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ToolWindowWithInfoBarCommand"/> class.
+        /// Initializes a new instance of the <see cref="ApplyCodeGenerationCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private ToolWindowWithInfoBarCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private ApplyCodeGenerationCommand(AsyncPackage package, IMenuCommandService commandService)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(this.Execute, menuCommandID);
-            commandService.AddCommand(menuItem);
+            commandService.AddCommand(new OleMenuCommand(this.Execute, menuCommandID)
+            { 
+              Supported = false,            
+            });
         }
 
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static ToolWindowWithInfoBarCommand Instance
+        public static ApplyCodeGenerationCommand Instance
         {
             get;
             private set;
@@ -73,31 +78,31 @@ namespace DisplayInfoBar
         /// <param name="package">Owner package, not null.</param>
         public static async Task InitializeAsync(AsyncPackage package)
         {
-            // Switch to the main thread - the call to AddCommand in ToolWindowWithInfoBarCommand's constructor requires
+            // Switch to the main thread - the call to AddCommand in ApplyCodeGenerationCommand's constructor requires
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
-            InfoBarService.Initialize(package);
-            OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
-            Instance = new ToolWindowWithInfoBarCommand(package, commandService);
+            dte = (DTE)await package.GetServiceAsync(typeof(DTE));
+            Assumes.Present(dte);
+            IMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as IMenuCommandService;
+            Instance = new ApplyCodeGenerationCommand(package, commandService);
         }
 
         /// <summary>
-        /// Shows the tool window when the menu item is clicked.
+        /// This function is the callback used to execute the command when the menu item is clicked.
+        /// See the constructor to see how the menu item is associated with this function using
+        /// OleMenuCommandService service and MenuCommand class.
         /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event args.</param>
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Event args.</param>
         private void Execute(object sender, EventArgs e)
         {
-            this.package.JoinableTaskFactory.RunAsync(async delegate
-            {
-                ToolWindowPane window = await this.package.ShowToolWindowAsync(typeof(ToolWindowWithInfoBar), 0, true, this.package.DisposalToken);
-                if ((null == window) || (null == window.Frame))
-                {
-                    throw new NotSupportedException("Cannot create tool window");
-                }
+            ThreadHelper.ThrowIfNotOnUIThread();
+            ProjectItem item = dte.SelectedItems.Item(1).ProjectItem;
 
-                ToolWindow = window;
-            });
+            if (item != null)
+            {
+                item.Properties.Item("CustomTool").Value = JsonToCSharpCodeGenerator.Name;
+            }
         }
     }
 }
