@@ -24,6 +24,7 @@ namespace ExternalSearch
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
+    [InstalledProductRegistration("The name of my extension"," Description of my extension","Version of my extension")]
     [Guid(ExternalSearchPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(ExternalSearchOptionPage), "External Search", "General", 1, 1, true, new string[] { "External Search Options"})]
