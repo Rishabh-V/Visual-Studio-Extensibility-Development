@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigureAwaitAnalyzer.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureAwaitAnalyzer.Vsix", "Chapter 6\ConfigureAwaitAnalyzer\ConfigureAwaitAnalyzer.Vsix\ConfigureAwaitAnalyzer.Vsix.csproj", "{B83AD705-CA28-4487-BA96-A0A3A5DE0408}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VarToStrongType", "Chapter 6\VarToStrongType\VarToStrongType\VarToStrongType.csproj", "{57597E7B-1E85-40C4-9C87-9F337DB2F274}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VarToStrongType", "Chapter 6\VarToStrongType\VarToStrongType\VarToStrongType.csproj", "{57597E7B-1E85-40C4-9C87-9F337DB2F274}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VarToStrongType.Vsix", "Chapter 6\VarToStrongType\VarToStrongType.Vsix\VarToStrongType.Vsix.csproj", "{6DA9D8AE-F24D-4F27-AD0F-5FCC670FD2B0}"
 EndProject

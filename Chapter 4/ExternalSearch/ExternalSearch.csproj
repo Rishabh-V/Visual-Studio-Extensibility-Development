@@ -12,6 +12,7 @@
     <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{7C45E88C-7865-48B0-8BF2-274A34543EB0}</ProjectGuid>
     <OutputType>Library</OutputType>
+    <OutputPath>bin\Debug\</OutputPath>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ExternalSearch</RootNamespace>
     <AssemblyName>ExternalSearch</AssemblyName>
