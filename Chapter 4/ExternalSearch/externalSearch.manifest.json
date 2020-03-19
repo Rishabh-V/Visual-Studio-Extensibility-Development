@@ -13,11 +13,11 @@
       "pathOnDisk": "images\\SearchMember.png",
       "targetPath": "images/SearchMember.png"
     }
-  ],
+  ], 
   "overview": "readme.md",
   "priceCategory": "free",
   "publisher": "RishabhVerma",
   "private": false,
   "qna": true,
-  "repo": "https://github.com/Rishabh-V/Visual-Studio-Extensibility-Development/tree/master/Chapter%204/ExternalSearch"
+  "repo": "https://github.com/Rishabh-V/Visual-Studio-Extensibility-Development"
 }
