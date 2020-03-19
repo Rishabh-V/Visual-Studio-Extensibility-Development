@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json.schemastore.org/vsix-publish",
+  "categories": [ "tools", "coding" ],
+  "identity": {
+    "internalName": "searchexternal"
+  },
+  "assetFiles": [
+    {
+      "pathOnDisk": "images\\ExternalSearchWorking.gif",
+      "targetPath": "images/ExternalSearchWorking.gif"
+    },
+    {
+      "pathOnDisk": "images\\SearchMember.png",
+      "targetPath": "images/SearchMember.png"
+    }
+  ],
+  "overview": "readme.md",
+  "priceCategory": "free",
+  "publisher": "RishabhVerma",
+  "private": false,
+  "qna": true,
+  "repo": "https://github.com/Rishabh-V/Visual-Studio-Extensibility-Development/tree/master/Chapter%204/ExternalSearch"
+}
