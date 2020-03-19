@@ -6,15 +6,15 @@
   },
   "assetFiles": [
     {
-      "pathOnDisk": "images\\ExternalSearchWorking.gif",
-      "targetPath": "images/ExternalSearchWorking.gif"
+      "pathOnDisk": "Images\\ExternalSearchWorking.gif",
+      "targetPath": "Images/ExternalSearchWorking.gif"
     },
     {
-      "pathOnDisk": "images\\SearchMember.png",
-      "targetPath": "images/SearchMember.png"
+      "pathOnDisk": "Images\\SearchMember.png",
+      "targetPath": "Images/SearchMember.png"
     }
   ], 
-  "overview": "readme.md",
+  "overview": "Readme.md",
   "priceCategory": "free",
   "publisher": "RishabhVerma",
   "private": false,
