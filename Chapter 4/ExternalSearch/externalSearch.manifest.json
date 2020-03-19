@@ -6,12 +6,8 @@
   },
   "assetFiles": [
     {
-      "pathOnDisk": "Images\\ExternalSearchWorking.gif",
-      "targetPath": "Images/ExternalSearchWorking.gif"
-    },
-    {
-      "pathOnDisk": "Images\\SearchMember.png",
-      "targetPath": "Images/SearchMember.png"
+      "pathOnDisk": "SearchMember.png",
+      "targetPath": "SearchMember.png"
     }
   ],
   "overview": "readme.md",
