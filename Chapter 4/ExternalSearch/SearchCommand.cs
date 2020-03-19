@@ -108,7 +108,7 @@ namespace ExternalSearch
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             var options = this.package.GetDialogPage(typeof(ExternalSearchOptionPage)) as ExternalSearchOptionPage;
-            var textSelection = DteInstance?.ActiveDocument?.Selection as TextSelection;
+            TextSelection textSelection = DteInstance?.ActiveDocument?.Selection as TextSelection;
             if (textSelection == null)
             {
                 DteInstance.StatusBar.Text = "The selection is null or empty";
@@ -118,7 +118,7 @@ namespace ExternalSearch
             string textToBeSearched = textSelection?.Text?.Trim();
             if (!string.IsNullOrWhiteSpace(textToBeSearched))
             {
-                var encodedText = HttpUtility.UrlEncode(textToBeSearched);
+                string encodedText = HttpUtility.UrlEncode(textToBeSearched);
                 DteInstance.StatusBar.Text = $"Searching {textToBeSearched}";
                 OutputWindow.OutputString($"Searching {textToBeSearched}");
                 string url = string.Format(options.Url, encodedText);
