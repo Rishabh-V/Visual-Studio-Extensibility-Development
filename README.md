@@ -18,6 +18,8 @@ Code samples for the book Visual Studio Extensibility Development
 ## Chapter 7
 - [Async snippet](https://github.com/Rishabh-V/Visual-Studio-Extensibility-Development/tree/master/Chapter%204/ExternalSearch)
 - [Connected Service Demo](https://github.com/Rishabh-V/Visual-Studio-Extensibility-Development/tree/master/Chapter%207/ConnectedServiceDemo)
+- [Code Generator Connected Service Skeleton](https://github.com/Rishabh-V/Visual-Studio-Extensibility-Development/tree/master/Chapter%207/CodeGeneratorConnectedService)
+- [Snippet project from template](https://github.com/Rishabh-V/Visual-Studio-Extensibility-Development/tree/master/Chapter%207/SnippetProjectFromTemplate)
 ## Chapter 8
 - [Extension Gallery Extension](https://github.com/Rishabh-V/Visual-Studio-Extensibility-Development/tree/master/Chapter%208/ExtensionGallery)
 ## Chapter 9
