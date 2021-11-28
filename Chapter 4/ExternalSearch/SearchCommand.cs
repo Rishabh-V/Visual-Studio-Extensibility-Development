@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using EnvDTE;
+using EnvDTE80;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -63,7 +64,7 @@ namespace ExternalSearch
             private set;
         }
 
-        public static DTE DteInstance
+        public static DTE2 DteInstance
         {
             get;
             private set;
@@ -91,7 +92,7 @@ namespace ExternalSearch
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
             OutputWindow = await package.GetServiceAsync(typeof(SVsGeneralOutputWindowPane)) as IVsOutputWindowPane;
             Assumes.Present(OutputWindow);
-            DteInstance = await package.GetServiceAsync(typeof(DTE)) as DTE;
+            DteInstance = await package.GetServiceAsync(typeof(DTE)) as DTE2;
             Assumes.Present(DteInstance);
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             Instance = new SearchCommand(package, commandService);
